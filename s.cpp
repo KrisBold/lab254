@@ -21,7 +21,7 @@ bool& Subscriber::subscribe()
     return isSubscribe;
 }
 
-Subscriber::Condition& Subscriber::getCondition()
+Condition& Subscriber::getCondition()
 {
     return condition;
 }

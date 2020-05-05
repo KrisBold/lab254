@@ -2,8 +2,9 @@
 #define FM_H
 #include <QObject>
 #include <QTimer>
+#include "Condishion.h"
 
-class Magazine;
+class FileInformation;
 class Subscriber;
 
 class FileManager final : public QObject
@@ -15,13 +16,7 @@ public:
      FileManager();
     // Функция "взывать". Она возвращает ссылку на единственный объекьт класса FileManager
     static FileManager& instance();
-    enum Condition
-        {
-            Init = 0,
-            Delete,
-            DeleteWin
-        };
-    QVector<Magazine*> magazines;
+    QVector<FileInformation*> magazines;
 
     Q_SLOT void check();
     Q_SIGNAL void conSub1(QString namemag, Condition conditi);

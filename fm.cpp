@@ -23,7 +23,7 @@ void FileManager:: check()
   {
       for (const auto& magazine : FileManager::instance().magazines)
       {
-          if (!QFileInfo(magazine->getName()).exists() && magazine->getCondition() == Magazine::Condition::Init)
+          if (!QFileInfo(magazine->getName()).exists() && magazine->getCondition() == Condition::Init)
           {
                emit conSub1(magazine->getName(), Condition::DeleteWin);
               //for (const auto& subscriber : subscribers)
@@ -32,10 +32,10 @@ void FileManager:: check()
                   //{
               //        subscriber->getCondition() = Subscriber::Condition::DeleteWin;
               //}
-              magazine->getCondition() = Magazine::Condition::DeleteWin;
+              magazine->getCondition() = Condition::DeleteWin;
           }
 
-          if (QFileInfo(magazine->getName()).exists() && magazine->getCondition() == Magazine::Condition::DeleteWin)
+          if (QFileInfo(magazine->getName()).exists() && magazine->getCondition() == Condition::DeleteWin)
           {
               emit conSub1(magazine->getName(), Condition::Init);
               //for (const auto& subscriber : subscribers)
@@ -43,7 +43,7 @@ void FileManager:: check()
               //    if(subscriber->getMagazine()==magazine->getName())
               //        subscriber->getCondition() = Subscriber::Condition::Init;
               //
-              magazine->getCondition() = Magazine::Condition::Init;
+              magazine->getCondition() = Condition::Init;
           }
        }
     }

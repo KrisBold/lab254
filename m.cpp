@@ -1,16 +1,16 @@
 #include "m.h"
 
-Magazine::Magazine(const QString& name) :
+FileInformation::FileInformation(const QString& name) :
     name(name),condition(Condition::Init)
 {
 }
 
-Magazine::Condition& Magazine::getCondition()
+Condition& FileInformation::getCondition()
 {
     return condition;
 }
 
-QString Magazine::getName() const
+QString FileInformation::getName() const
 {
     return name;
 }

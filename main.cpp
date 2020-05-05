@@ -53,7 +53,7 @@ bool resign_r(qint32 idSubscriber, qint32 idMagazine)
         {
             if (idMagazine >= 0 && idMagazine < FileManager::instance().magazines.size())
             {
-                if(FileManager::instance().magazines[idMagazine]->getCondition()== Magazine::Init)
+                if(FileManager::instance().magazines[idMagazine]->getCondition()== FileInformation::Init)
                 {
                     for (qint32 i = 0; i < subscribers.size(); ++i)
                     {
@@ -66,7 +66,7 @@ bool resign_r(qint32 idSubscriber, qint32 idMagazine)
                                 // Здесь подписываем на новый журнал
                                 subscribers[idSubscriber]->getMagazine() = FileManager::instance().magazines[idMagazine]->getName();
                                 subscribers[idSubscriber]->subscribe() = true;
-                                subscribers[idSubscriber]->getCondition() = Subscriber::Condition::Init;
+                                subscribers[idSubscriber]->getCondition() = Condition::Init;
                               }
                         }
                     }
@@ -97,7 +97,7 @@ bool connect_t(qint32 idMagazine, qint32 idSubscriber)
          // Если подписчик не подписан, то подписываем его на журнал
          if (!subscribers[idSubscriber]->subscribe())
          {
-             if(FileManager::instance().magazines[idMagazine]->getCondition()== Magazine::Init)
+             if(FileManager::instance().magazines[idMagazine]->getCondition()== FileInformation::Init)
              {
                  if (!subscribers[idSubscriber]->subscribe())
                  {
@@ -155,11 +155,11 @@ void printMagazines()
 
     for (const auto& magazine : FileManager::instance().magazines)
     {
-            if (magazine->getCondition() != Magazine::Condition::DeleteWin)
+            if (magazine->getCondition() != FileInformation::Condition::DeleteWin)
             {
                 QTextStream(stdout) << "\t" << i++ << " ---> " << magazine->getName() << " exsist " << endl;
             }
-            else if (magazine->getCondition() == Magazine::Condition::DeleteWin)
+            else if (magazine->getCondition() == FileInformation::Condition::DeleteWin)
             {
                 QTextStream(stdout) << "\t" << i++ << " ---> " << magazine->getName() << " DELETE WINAPI" << endl;
             }
@@ -174,7 +174,7 @@ void printSubscribers()
 
     for (const auto& sub : subscribers)
     {
-        if (sub->getCondition() != Subscriber::Condition::DeleteWin)
+        if (sub->getCondition() != Condition::DeleteWin)
         {
             QTextStream(stdout) << "\t" << i << " ---> " << sub->getName();
             if(QFileInfo(sub->getMagazine()).exists())
@@ -190,7 +190,7 @@ void printSubscribers()
             }
           }
 
-        else if (sub->getCondition() == Subscriber::Condition::DeleteWin)
+        else if (sub->getCondition() == Condition::DeleteWin)
         {
           QTextStream(stdout) << "\t" << i++ << " ---> " << sub->getName() << " MAGAZINE WAS DELETE WINAPI" << endl;
         }
@@ -220,16 +220,16 @@ void printm()
 
     cout << '\t' << "Input magazine: " << flush;
     path = cin.readLine();
-    FileManager::instance().magazines.push_back(new Magazine(path));
+    FileManager::instance().magazines.push_back(new FileInformation(path));
     printMagazines();
 
     cout << '\t' << "Input magazine: " << flush;
     path1 = cin.readLine();
-    FileManager::instance().magazines.push_back(new Magazine(path1));
+    FileManager::instance().magazines.push_back(new FileInformation(path1));
 
     cout << '\t' << "Input magazine: " << flush;
     path2 = cin.readLine();
-    FileManager::instance().magazines.push_back(new Magazine(path2));
+    FileManager::instance().magazines.push_back(new FileInformation(path2));
 
     printSubscribers();
     printMagazines();
