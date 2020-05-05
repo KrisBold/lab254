@@ -15,7 +15,7 @@ public:
 
     QString getName() const;
 
-    QString& getMagazine();
+    QString& getFile();
 
     // Возвращает флаг, подписан ли подпичик на журнал или нет
     bool& subscribe();
@@ -26,7 +26,7 @@ public:
     Q_SLOT void f1(QString namemag, Condition conditi);
 private:
     QString name;
-    QString magazine;
+    QString file;
     bool isSubscribe;
     Condition condition;
 };

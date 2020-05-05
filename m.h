@@ -11,7 +11,7 @@ class FileInformation : public QObject
     Q_OBJECT
 
 public:
-    // Конструктор принимает имя журнала
+    // Конструктор принимает имя файла
     explicit FileInformation(const QString& name);
 
     // Деструктор создаётся по умолчанию компилятором

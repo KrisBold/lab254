@@ -16,7 +16,7 @@ public:
      FileManager();
     // Функция "взывать". Она возвращает ссылку на единственный объекьт класса FileManager
     static FileManager& instance();
-    QVector<FileInformation*> magazines;
+    QVector<FileInformation*> files;
 
     Q_SLOT void check();
     Q_SIGNAL void conSub1(QString namemag, Condition conditi);
