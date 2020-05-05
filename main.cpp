@@ -53,7 +53,7 @@ bool resign_r(qint32 idSubscriber, qint32 idMagazine)
         {
             if (idMagazine >= 0 && idMagazine < FileManager::instance().magazines.size())
             {
-                if(FileManager::instance().magazines[idMagazine]->getCondition()== FileInformation::Init)
+                if(FileManager::instance().magazines[idMagazine]->getCondition()== Condition::Init)
                 {
                     for (qint32 i = 0; i < subscribers.size(); ++i)
                     {
@@ -97,7 +97,7 @@ bool connect_t(qint32 idMagazine, qint32 idSubscriber)
          // Если подписчик не подписан, то подписываем его на журнал
          if (!subscribers[idSubscriber]->subscribe())
          {
-             if(FileManager::instance().magazines[idMagazine]->getCondition()== FileInformation::Init)
+             if(FileManager::instance().magazines[idMagazine]->getCondition()== Condition::Init)
              {
                  if (!subscribers[idSubscriber]->subscribe())
                  {
@@ -155,11 +155,11 @@ void printMagazines()
 
     for (const auto& magazine : FileManager::instance().magazines)
     {
-            if (magazine->getCondition() != FileInformation::Condition::DeleteWin)
+            if (magazine->getCondition() != Condition::DeleteWin)
             {
                 QTextStream(stdout) << "\t" << i++ << " ---> " << magazine->getName() << " exsist " << endl;
             }
-            else if (magazine->getCondition() == FileInformation::Condition::DeleteWin)
+            else if (magazine->getCondition() == Condition::DeleteWin)
             {
                 QTextStream(stdout) << "\t" << i++ << " ---> " << magazine->getName() << " DELETE WINAPI" << endl;
             }
