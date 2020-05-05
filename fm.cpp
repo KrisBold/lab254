@@ -16,6 +16,14 @@ FileManager::FileManager() :
 }
 
 
+FileManager:: ~FileManager()
+{
+    for (const auto& f :files)
+    {
+        delete f;
+    }
+};
+
 void FileManager:: check()
 {
   QTextStream cout(stdout);

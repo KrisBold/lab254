@@ -340,10 +340,19 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
+    qint32 execCode=0;
+
     QTimer timer;
     timer.setInterval(1000);
     QObject::connect(&timer, &QTimer::timeout, &FileManager::instance(), &printm);
     timer.start();
 
-    return a.exec();
+    execCode=a.exec();
+
+    for (const auto& sub : subscribers)
+    {
+        delete sub;
+    }
+
+    return execCode;
 }

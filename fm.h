@@ -12,7 +12,7 @@ class FileManager final : public QObject
     Q_OBJECT
     QTimer timer;
 public:
-    ~FileManager()=default;
+    ~FileManager();
      FileManager();
     // Функция "взывать". Она возвращает ссылку на единственный объекьт класса FileManager
     static FileManager& instance();
