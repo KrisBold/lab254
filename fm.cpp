@@ -16,34 +16,42 @@ FileManager::FileManager() :
 }
 
 
+FileManager:: ~FileManager()
+{
+    for (const auto& f :files)
+    {
+        delete f;
+    }
+};
+
 void FileManager:: check()
 {
   QTextStream cout(stdout);
-  if (!FileManager::instance().magazines.isEmpty())
+  if (!FileManager::instance().files.isEmpty())
   {
-      for (const auto& magazine : FileManager::instance().magazines)
+      for (const auto& f : FileManager::instance().files)
       {
-          if (!QFileInfo(magazine->getName()).exists() && magazine->getCondition() == Magazine::Condition::Init)
+          if (!QFileInfo(f->getName()).exists() && f->getCondition() == Condition::Init)
           {
-               emit conSub1(magazine->getName(), Condition::DeleteWin);
+               emit conSub1(f->getName(), Condition::DeleteWin);
               //for (const auto& subscriber : subscribers)
               //{
                 //  if(subscriber->getMagazine()==magazine->getName())
                   //{
               //        subscriber->getCondition() = Subscriber::Condition::DeleteWin;
               //}
-              magazine->getCondition() = Magazine::Condition::DeleteWin;
+              f->getCondition() = Condition::DeleteWin;
           }
 
-          if (QFileInfo(magazine->getName()).exists() && magazine->getCondition() == Magazine::Condition::DeleteWin)
+          if (QFileInfo(f->getName()).exists() && f->getCondition() == Condition::DeleteWin)
           {
-              emit conSub1(magazine->getName(), Condition::Init);
+              emit conSub1(f->getName(), Condition::Init);
               //for (const auto& subscriber : subscribers)
               //{
               //    if(subscriber->getMagazine()==magazine->getName())
               //        subscriber->getCondition() = Subscriber::Condition::Init;
               //
-              magazine->getCondition() = Magazine::Condition::Init;
+              f->getCondition() = Condition::Init;
           }
        }
     }

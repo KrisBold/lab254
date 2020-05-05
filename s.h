@@ -2,6 +2,7 @@
 #define S_H
 
 #include <QObject>
+#include "Condishion.h"
 
 class Subscriber : public QObject
 {
@@ -14,17 +15,10 @@ public:
 
     QString getName() const;
 
-    QString& getMagazine();
+    QString& getFile();
 
     // Возвращает флаг, подписан ли подпичик на журнал или нет
     bool& subscribe();
-
-    enum Condition
-        {
-            Init = 0,
-            Delete ,
-            DeleteWin
-        };
 
     Condition& getCondition();
     //Q_SLOT void conditi1(Subscriber* _name, Subscriber::Condition conditi);
@@ -32,7 +26,7 @@ public:
     Q_SLOT void f1(QString namemag, Condition conditi);
 private:
     QString name;
-    QString magazine;
+    QString file;
     bool isSubscribe;
     Condition condition;
 };

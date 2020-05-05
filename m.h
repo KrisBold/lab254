@@ -2,30 +2,24 @@
 #define M_H
 
 #include <QObject>
+#include "Condishion.h"
 
 class Subscriber;
 
-class Magazine : public QObject
+class FileInformation : public QObject
 {
     Q_OBJECT
 
 public:
-    // Конструктор принимает имя журнала
-    explicit Magazine(const QString& name);
+    // Конструктор принимает имя файла
+    explicit FileInformation(const QString& name);
 
     // Деструктор создаётся по умолчанию компилятором
-    ~Magazine() = default;
+    ~FileInformation() = default;
 
     // Возвращает имя журнала
     // const - спецификатор, означающий что функция не изменяет поля класса ( исключения mutable )
     QString getName() const;
-
-    enum Condition
-        {
-            Init = 0,
-            Delete,
-            DeleteWin
-        };
 
     Condition& getCondition();
 

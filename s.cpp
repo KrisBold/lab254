@@ -11,9 +11,9 @@ QString Subscriber::getName() const
     return name;
 }
 
-QString& Subscriber::getMagazine()
+QString& Subscriber::getFile()
 {
-    return magazine;
+    return file;
 }
 
 bool& Subscriber::subscribe()
@@ -21,7 +21,7 @@ bool& Subscriber::subscribe()
     return isSubscribe;
 }
 
-Subscriber::Condition& Subscriber::getCondition()
+Condition& Subscriber::getCondition()
 {
     return condition;
 }
@@ -32,7 +32,7 @@ Subscriber::Condition& Subscriber::getCondition()
 //}
 void Subscriber:: f1(QString namemag, Condition conditi)
 {
-    if(namemag==magazine)
+    if(namemag==file)
     {
         condition =conditi;
     }

@@ -47,13 +47,13 @@ void connectSub1()
 //    FileManager::instance().check();
 //}
 
-bool resign_r(qint32 idSubscriber, qint32 idMagazine)
+bool resign(qint32 idSubscriber, qint32 idFile)
 {
-   if (((idMagazine!=' ' && idSubscriber!=' ') && idSubscriber >= 0) && idSubscriber < subscribers.size())
+   if (idSubscriber >= 0 && idSubscriber < subscribers.size())
         {
-            if (idMagazine >= 0 && idMagazine < FileManager::instance().magazines.size())
+            if (idFile >= 0 && idFile < FileManager::instance().files.size())
             {
-                if(FileManager::instance().magazines[idMagazine]->getCondition()== Magazine::Init)
+                if(FileManager::instance().files[idFile]->getCondition()== Condition::Init)
                 {
                     for (qint32 i = 0; i < subscribers.size(); ++i)
                     {
@@ -64,9 +64,9 @@ bool resign_r(qint32 idSubscriber, qint32 idMagazine)
                             if (subscribers[idSubscriber]->subscribe())
                             {
                                 // Здесь подписываем на новый журнал
-                                subscribers[idSubscriber]->getMagazine() = FileManager::instance().magazines[idMagazine]->getName();
+                                subscribers[idSubscriber]->getFile() = FileManager::instance().files[idFile]->getName();
                                 subscribers[idSubscriber]->subscribe() = true;
-                                subscribers[idSubscriber]->getCondition() = Subscriber::Condition::Init;
+                                subscribers[idSubscriber]->getCondition() = Condition::Init;
                               }
                         }
                     }
@@ -88,21 +88,21 @@ bool resign_r(qint32 idSubscriber, qint32 idMagazine)
    }
 }
 
-bool connect_t(qint32 idMagazine, qint32 idSubscriber)
+bool connect(qint32 idFile, qint32 idSubscriber)
 {
     QTextStream cin(stdin), cout(stdout);
      // Если ввели правильные IDs, то выполняем
-     if (((idMagazine!=' ' && idSubscriber!=' ') && (idMagazine >= 0 && idMagazine < FileManager::instance().magazines.size())) && (idSubscriber >= 0 && idSubscriber < subscribers.size()))
+     if (idFile >= 0 && idFile < FileManager::instance().files.size() && (idSubscriber >= 0 && idSubscriber < subscribers.size()))
      {
          // Если подписчик не подписан, то подписываем его на журнал
          if (!subscribers[idSubscriber]->subscribe())
          {
-             if(FileManager::instance().magazines[idMagazine]->getCondition()== Magazine::Init)
+             if(FileManager::instance().files[idFile]->getCondition()== Condition::Init)
              {
                  if (!subscribers[idSubscriber]->subscribe())
                  {
                      // Добавляем подписчику журнал
-                     subscribers[idSubscriber]->getMagazine() = FileManager::instance().magazines[idMagazine]->getName();
+                     subscribers[idSubscriber]->getFile() = FileManager::instance().files[idFile]->getName();
 
                      // Выставляем подписчику флаг, что он был подписан
                      subscribers[idSubscriber]->subscribe() = true;
@@ -138,7 +138,7 @@ qint32 size(qint32 idSubscriber)
                 // Если подписчик подписан на журнал, то выводим размер журнала, на который он подписан
                 if (subscribers[idSubscriber]->subscribe())
                 {
-                    return QFileInfo(subscribers[idSubscriber]->getMagazine()).size();
+                    return QFileInfo(subscribers[idSubscriber]->getFile()).size();
                 }
                 else return -1;
             }
@@ -147,21 +147,21 @@ qint32 size(qint32 idSubscriber)
     else return -1;
 }
 
-void printMagazines()
+void printFiles()
 {
-    QTextStream(stdout) << "\tMAGAZINES" << endl;
+    QTextStream(stdout) << "\tFiles" << endl;
     qint32 i = 0;
     FileManager::instance().check();
 
-    for (const auto& magazine : FileManager::instance().magazines)
+    for (const auto& f : FileManager::instance().files)
     {
-            if (magazine->getCondition() != Magazine::Condition::DeleteWin)
+            if (f->getCondition() != Condition::DeleteWin)
             {
-                QTextStream(stdout) << "\t" << i++ << " ---> " << magazine->getName() << " exsist " << endl;
+                QTextStream(stdout) << "\t" << i++ << " ---> " << f->getName() << " exsist " << endl;
             }
-            else if (magazine->getCondition() == Magazine::Condition::DeleteWin)
+            else if (f->getCondition() == Condition::DeleteWin)
             {
-                QTextStream(stdout) << "\t" << i++ << " ---> " << magazine->getName() << " DELETE WINAPI" << endl;
+                QTextStream(stdout) << "\t" << i++ << " ---> " << f->getName() << " DELETE WINAPI" << endl;
             }
     }
 }
@@ -174,12 +174,12 @@ void printSubscribers()
 
     for (const auto& sub : subscribers)
     {
-        if (sub->getCondition() != Subscriber::Condition::DeleteWin)
+        if (sub->getCondition() != Condition::DeleteWin)
         {
             QTextStream(stdout) << "\t" << i << " ---> " << sub->getName();
-            if(QFileInfo(sub->getMagazine()).exists())
+            if(QFileInfo(sub->getFile()).exists())
                 {
-                    QTextStream(stdout)<<" magazine  "<<sub->getMagazine() <<"  exist"<<endl;
+                    QTextStream(stdout)<<" file  "<<sub->getFile() <<"  exist"<<endl;
                     QTextStream(stdout) << "\t\tSize is " << size(i) << " byte" << endl;
                     i++;
                 }
@@ -190,9 +190,9 @@ void printSubscribers()
             }
           }
 
-        else if (sub->getCondition() == Subscriber::Condition::DeleteWin)
+        else if (sub->getCondition() == Condition::DeleteWin)
         {
-          QTextStream(stdout) << "\t" << i++ << " ---> " << sub->getName() << " MAGAZINE WAS DELETE WINAPI" << endl;
+          QTextStream(stdout) << "\t" << i++ << " ---> " << sub->getName() << " Files WAS DELETE WINAPI" << endl;
         }
     }
 }
@@ -201,7 +201,7 @@ void printm()
 {
     QTextStream cin(stdin), cout(stdout);
     QString name1, name, path,path1, path2, name2;
-    qint32 idMagazine,idSubscriber, byte, byte1;
+    qint32 idFile,idSubscriber, byte, byte1;
 
     cout << '\t' << "Input subscriber: " << flush;
     name = cin.readLine();
@@ -218,27 +218,27 @@ void printm()
     subscribers.push_back(new Subscriber(name2));
     printSubscribers();
 
-    cout << '\t' << "Input magazine: " << flush;
+    cout << '\t' << "Input file: " << flush;
     path = cin.readLine();
-    FileManager::instance().magazines.push_back(new Magazine(path));
-    printMagazines();
+    FileManager::instance().files.push_back(new FileInformation(path));
+    printFiles();
 
-    cout << '\t' << "Input magazine: " << flush;
+    cout << '\t' << "Input file: " << flush;
     path1 = cin.readLine();
-    FileManager::instance().magazines.push_back(new Magazine(path1));
+    FileManager::instance().files.push_back(new FileInformation(path1));
 
-    cout << '\t' << "Input magazine: " << flush;
+    cout << '\t' << "Input file: " << flush;
     path2 = cin.readLine();
-    FileManager::instance().magazines.push_back(new Magazine(path2));
+    FileManager::instance().files.push_back(new FileInformation(path2));
 
     printSubscribers();
-    printMagazines();
+    printFiles();
 
-    cout << "\tInput ID magazine which you want to connect: " << flush;
-    idMagazine = cin.readLine().toInt();
+    cout << "\tInput ID file which you want to connect: " << flush;
+    idFile = cin.readLine().toInt();
     cout << "\tInput ID subscriber which you want to connect: " << flush;
     idSubscriber = cin.readLine().toInt();
-    if(connect_t(idMagazine,idSubscriber))
+    if(connect(idFile,idSubscriber))
     {
         cout<<"Connect"<<endl;
     }
@@ -247,11 +247,11 @@ void printm()
         cout<<"Not connect"<<endl;
     }
 
-    cout << "\tInput ID magazine which you want to connect: " << flush;
-    idMagazine = cin.readLine().toInt();
+    cout << "\tInput ID file which you want to connect: " << flush;
+    idFile = cin.readLine().toInt();
     cout << "\tInput ID subscriber which you want to connect: " << flush;
     idSubscriber = cin.readLine().toInt();
-    if(connect_t(idMagazine,idSubscriber))
+    if(connect(idFile,idSubscriber))
     {
         cout<<"Connect"<<endl;
     }
@@ -260,11 +260,11 @@ void printm()
         cout<<"Not connect"<<endl;
     }
 
-    cout << "\tInput ID magazine which you want to connect: " << flush;
-    idMagazine = cin.readLine().toInt();
+    cout << "\tInput ID file which you want to connect: " << flush;
+    idFile = cin.readLine().toInt();
     cout << "\tInput ID subscriber which you want to connect: " << flush;
     idSubscriber = cin.readLine().toInt();
-    if(connect_t(idMagazine,idSubscriber))
+    if(connect(idFile,idSubscriber))
     {
         cout<<"Connect"<<endl;
     }
@@ -273,7 +273,7 @@ void printm()
         cout<<"Not connect"<<endl;
     }
 
-    cout << "\tEnter the id of the subscriber from whom you want to find out the size of magazine: " << flush;
+    cout << "\tEnter the id of the subscriber from whom you want to find out the size of file: " << flush;
     idSubscriber = cin.readLine().toInt();
     byte1=size(idSubscriber);
     cout << "\t\tSize is " << byte1 << " byte" << endl;
@@ -288,6 +288,7 @@ void printm()
     //    {
     //        // Удаляем журнал из вектора ( массива )
     //        magazines.remove(i);
+    //        magazines[i]=NULL;
     //
     //        break;
     //    }
@@ -302,19 +303,20 @@ void printm()
     //    {
     //        // Удаляем подписчика из вектора ( массива )
     //        subscribers.remove(i);
+    //        subscribers[i]=NULL;
     //
     //        break;
     //    }
     //}
 
     printSubscribers();
-    printMagazines();
+    printFiles();
 
     cout << "\t\tInput number subscriber which you want to re-sign: " << flush;
     idSubscriber = cin.readLine().toInt();
-    cout << "\t\tInput the idMagazine which you want to subscribe to: " << flush;
-    idMagazine = cin.readLine().toInt();
-    if(resign_r(idSubscriber, idMagazine))
+    cout << "\t\tInput the file which you want to subscribe to: " << flush;
+    idFile = cin.readLine().toInt();
+    if(resign(idSubscriber, idFile))
     {
         cout<<"Resign"<<endl;
     }
@@ -323,13 +325,13 @@ void printm()
         cout<<"Not resign"<<endl;
     }
 
-    cout << "\tEnter the id of the subscriber from whom you want to find out the size of magazine: " << flush;
+    cout << "\tEnter the id of the subscriber from whom you want to find out the size of file: " << flush;
     idSubscriber = cin.readLine().toInt();
     byte=size(idSubscriber);
     cout << "\t\tSize is " << byte << " byte" << endl;
 
     printSubscribers();
-    printMagazines();
+    printFiles();
 
     connectSub1();
 }
@@ -338,10 +340,19 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
+    qint32 execCode=0;
+
     QTimer timer;
     timer.setInterval(1000);
     QObject::connect(&timer, &QTimer::timeout, &FileManager::instance(), &printm);
     timer.start();
 
-    return a.exec();
+    execCode=a.exec();
+
+    for (const auto& sub : subscribers)
+    {
+        delete sub;
+    }
+
+    return execCode;
 }
