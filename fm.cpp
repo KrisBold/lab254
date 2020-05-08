@@ -1,6 +1,5 @@
 #include "fm.h"
 #include "m.h"
-//#include "s.h"
 
 #include <QTextStream>
 #include <QFileInfo>

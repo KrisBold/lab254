@@ -5,7 +5,7 @@
 enum Condition
     {
         Init = 0,
-        Delete ,
+        Not ,
         DeleteWin
     };
 

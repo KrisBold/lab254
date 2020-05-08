@@ -2,7 +2,7 @@
 #include <QTextStream>
 
 Subscriber::Subscriber(const QString& name) :
-    name(name),isSubscribe(false), condition(Condition::Init)
+    name(name),isSubscribe(false), condition(Condition::Not)
 {
 }
 
