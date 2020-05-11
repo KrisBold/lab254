@@ -21,7 +21,7 @@ public:
     ~MainWindow();
     void connectSub1();
     Q_SLOT void AddSubscriber();
-    QStringList printSub();
+    Q_SLOT QStringList printSub();
     Q_SLOT void AddFile();
     Q_SLOT void DeleteSubscriber();
     Q_SLOT void DeleteFile();

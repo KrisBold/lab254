@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTimer>
 #include "Condition.h"
+#include <QTimer>
 
 class FileInformation;
 class Subscriber;
