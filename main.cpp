@@ -1,13 +1,17 @@
-#include <QCoreApplication>
-#include "fm.h"
+#include "mainwindow.h"
+#include "fileinformation.h"
 #include <QTextStream>
-#include "m.h"
-#include "s.h"
+#include "filemanager.h"
+#include "subscriber.h"
 #include <QFileInfo>
 #include <QObject>
 #include <QTimer>
+#include <QApplication>
 
-//Q_SIGNAL void conSub2(Subscriber* _name, Subscriber::Condition conditi);
+//удалить файл, подписчика
+//добавить файл и подписчика
+//переподска
+
 QVector<Subscriber*>subscribers;
 
 void connectSub1()
@@ -17,35 +21,6 @@ void connectSub1()
         QObject :: connect(&FileManager::instance(), &FileManager::conSub1, sub, &Subscriber::f1);
     }
 }
-
-//void condi(QString _name, Subscriber::Condition conditi)
-//{
-//    for (const auto& sub : subscribers)
-//    {
-//        if(sub->getMagazine()==_name)
-//        {
-//            sub->getCondition() =conditi;
-//            emit conSub2(sub, conditi);
-//        }
-//    }
-//}
-//
-//void connectSub1()
-//{
-//    for (const auto& sub : subscribers)
-//    {
-//        QObject :: connect(&FileManager::instance(), &FileManager::conSub1, sub, &condi);
-//    }
-//}
-//
-//void connectSub2()
-//{
-//    for (const auto& sub : subscribers)
-//    {
-//        QObject :: connect(&FileManager::instance(), conSub2, sub, &Subscriber::conditi1);
-//    }
-//    FileManager::instance().check();
-//}
 
 bool resign(qint32 idSubscriber, qint32 idFile)
 {
@@ -106,6 +81,7 @@ bool connect(qint32 idFile, qint32 idSubscriber)
 
                      // Выставляем подписчику флаг, что он был подписан
                      subscribers[idSubscriber]->subscribe() = true;
+                     subscribers[idSubscriber]->getCondition()=Init;
                  }
                return true;
              }
@@ -174,25 +150,29 @@ void printSubscribers()
 
     for (const auto& sub : subscribers)
     {
-        if (sub->getCondition() != Condition::DeleteWin)
+        if (sub->getCondition() == Condition::Init)
         {
-            QTextStream(stdout) << "\t" << i << " ---> " << sub->getName();
             if(QFileInfo(sub->getFile()).exists())
-                {
-                    QTextStream(stdout)<<" file  "<<sub->getFile() <<"  exist"<<endl;
-                    QTextStream(stdout) << "\t\tSize is " << size(i) << " byte" << endl;
-                    i++;
-                }
+            {
+                QTextStream(stdout) << "\t" << i << " ---> " << sub->getName();
+                QTextStream(stdout)<<" file  "<<sub->getFile() <<"  exist"<<endl;
+                QTextStream(stdout) << "\t\tSize is " << size(i) << " byte" << endl;
+                i++;
+            }
             else
             {
-                QTextStream(stdout)<<" "<<endl;
-                i++;
+               QTextStream(stdout) << "\t" << i++ << " ---> " << sub->getName() << " Files WAS DELETE WINAPI" << endl;
             }
           }
 
         else if (sub->getCondition() == Condition::DeleteWin)
         {
           QTextStream(stdout) << "\t" << i++ << " ---> " << sub->getName() << " Files WAS DELETE WINAPI" << endl;
+        }
+
+        else if(sub->getCondition() == Condition::Not)
+        {
+            QTextStream(stdout) << "\t" << i++ << " ---> " << sub->getName()<<endl;
         }
     }
 }
@@ -279,35 +259,31 @@ void printm()
     cout << "\t\tSize is " << byte1 << " byte" << endl;
 
 
-    //cout << "\t\tInput number magazine which you want to delete: " << flush;
-    //idMagazine = cin.readLine().toInt();
-    //for (qint32 i = 0; i < magazines.size(); ++i)
-    //{
-    //    // Находим нужный индекс журнала, который надо удалить
-    //    if (i == idMagazine)
-    //    {
-    //        // Удаляем журнал из вектора ( массива )
-    //        magazines.remove(i);
-    //        magazines[i]=NULL;
-    //
-    //        break;
-    //    }
-    //}
-    //
-    //cout << "\t\tInput number of subcriber which you want to delete: " << flush;
-    //idSubscriber = cin.readLine().toInt();
-    //for (qint32 i = 0; i < subscribers.size(); ++i)
-    //{
-    //    // Ищем индекс нужного подписчика, которого надо удалить
-    //    if (i == idSubscriber)
-    //    {
-    //        // Удаляем подписчика из вектора ( массива )
-    //        subscribers.remove(i);
-    //        subscribers[i]=NULL;
-    //
-    //        break;
-    //    }
-    //}
+    cout << "\t\tInput number file which you want to delete: " << flush;
+    idFile = cin.readLine().toInt();
+    for (qint32 i = 0; i < FileManager::instance().files.size(); ++i)
+    {
+        // Находим нужный индекс журнала, который надо удалить
+        if (i == idFile)
+        {
+            // Удаляем журнал из вектора ( массива )
+            FileManager::instance().files.removeAt(i);
+            break;
+        }
+    }
+
+    cout << "\t\tInput number of subcriber which you want to delete: " << flush;
+    idSubscriber = cin.readLine().toInt();
+    for (qint32 i = 0; i < subscribers.size(); ++i)
+    {
+        // Ищем индекс нужного подписчика, которого надо удалить
+        if (i == idSubscriber)
+        {
+            // Удаляем подписчика из вектора ( массива )
+            subscribers.remove(i);
+            break;
+        }
+    }
 
     printSubscribers();
     printFiles();
@@ -338,15 +314,12 @@ void printm()
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QApplication a(argc, argv);
+    MainWindow w;
 
     qint32 execCode=0;
 
-    QTimer timer;
-    timer.setInterval(1000);
-    QObject::connect(&timer, &QTimer::timeout, &FileManager::instance(), &printm);
-    timer.start();
-
+    w.show();
     execCode=a.exec();
 
     for (const auto& sub : subscribers)

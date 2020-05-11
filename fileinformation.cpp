@@ -1,4 +1,4 @@
-#include "m.h"
+#include "fileinformation.h"
 
 FileInformation::FileInformation(const QString& name) :
     name(name),condition(Condition::Init)
@@ -14,4 +14,3 @@ QString FileInformation::getName() const
 {
     return name;
 }
-

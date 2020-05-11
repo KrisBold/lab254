@@ -1,8 +1,9 @@
-#ifndef FM_H
-#define FM_H
+#ifndef FILEMANAGER_H
+#define FILEMANAGER_H
+
 #include <QObject>
 #include <QTimer>
-#include "Condishion.h"
+#include "Condition.h"
 
 class FileInformation;
 class Subscriber;
@@ -14,11 +15,12 @@ class FileManager final : public QObject
 public:
     ~FileManager();
      FileManager();
+     QStringList printfile();
     // Функция "взывать". Она возвращает ссылку на единственный объекьт класса FileManager
-    static FileManager& instance();
-    QVector<FileInformation*> files;
-
-    Q_SLOT void check();
-    Q_SIGNAL void conSub1(QString namemag, Condition conditi);
+     static FileManager& instance();
+     QVector<FileInformation*> files;
+     Q_SLOT void check();
+     Q_SIGNAL void conSub1(QString namef, Condition conditi);
 };
-#endif // FM_H
+
+#endif // FILEMANAGER_H

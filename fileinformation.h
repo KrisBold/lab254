@@ -1,8 +1,8 @@
-#ifndef M_H
-#define M_H
+#ifndef FILEINFORMATION_H
+#define FILEINFORMATION_H
 
 #include <QObject>
-#include "Condishion.h"
+#include "Condition.h"
 
 class Subscriber;
 
@@ -13,14 +13,11 @@ class FileInformation : public QObject
 public:
     // Конструктор принимает имя файла
     explicit FileInformation(const QString& name);
-
     // Деструктор создаётся по умолчанию компилятором
     ~FileInformation() = default;
-
     // Возвращает имя журнала
     // const - спецификатор, означающий что функция не изменяет поля класса ( исключения mutable )
     QString getName() const;
-
     Condition& getCondition();
 
 private:
@@ -28,4 +25,4 @@ private:
     Condition condition;
 
 };
-#endif // M_H
+#endif // FILEINFORMATION_H

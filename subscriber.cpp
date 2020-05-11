@@ -1,8 +1,9 @@
-#include "s.h"
+#include "subscriber.h"
+
 #include <QTextStream>
 
 Subscriber::Subscriber(const QString& name) :
-    name(name),isSubscribe(false), condition(Condition::Init)
+    name(name),isSubscribe(false), condition(Condition::Not)
 {
 }
 
@@ -26,10 +27,6 @@ Condition& Subscriber::getCondition()
     return condition;
 }
 
-//void Subscriber::conditi1(Subscriber* _name, Subscriber::Condition conditi)
-//{
-//  _name->getCondition()=conditi;
-//}
 void Subscriber:: f1(QString namemag, Condition conditi)
 {
     if(namemag==file)
@@ -37,4 +34,3 @@ void Subscriber:: f1(QString namemag, Condition conditi)
         condition =conditi;
     }
 }
-

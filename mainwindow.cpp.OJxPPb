@@ -101,9 +101,14 @@ void MainWindow:: AddSubscriber()
         subscribers.last()->getFile() = FileManager::instance().files.last()->getName();
         subscribers.last()->subscribe() = true;
         subscribers.last()->getCondition()=Init;
+        QTextStream(stdout)<<"connect"<<endl;
         ui->list_sub->clear();
         ui->list_sub->addItems(printSub());
       }
+     else if(is==false)
+     {
+         //QTextStream(stdout)<<"error, name already exists"<<endl;
+     }
 }
 
 void MainWindow:: UpdateS()
@@ -122,25 +127,15 @@ void MainWindow:: AddFile()
 {
    FileManager::instance().check();
    FileInformation file(ui->line_fm->text());
-   bool is=true;
-   for(const auto& f : FileManager::instance().files)
-       {
-         if(f->getName()==file.getName())
-         {
-             is=false;
-         }
-       }
-      if(is==true)
-      {
-         FileManager::instance().files.append(new FileInformation(ui->line_fm->text()));
-         ui->list_fm->clear();
-         ui->list_fm->addItems(FileManager::instance().printfile());
-         for(int i=0; i<subscribers.size();i++)
-                {
-                    if(subscribers[i]->getFile()==file.getName())
-                    {
-                        subscribers[i]->getCondition()=file.getCondition();
-                    }
-                }
-       }
+   FileManager::instance().files.append(new FileInformation(ui->line_fm->text()));
+   ui->list_fm->clear();
+   ui->list_fm->addItems(FileManager::instance().printfile());
+   for(int i=0; i<subscribers.size();i++)
+          {
+              if(subscribers[i]->getFile()==file.getName())
+              {
+                  subscribers[i]->getCondition()=file.getCondition();
+              }
+          }
+
 }
