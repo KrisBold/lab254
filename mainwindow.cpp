@@ -26,7 +26,7 @@ void MainWindow::connectSub1()
 
 QStringList MainWindow::printSub()
 {
-    ui->list_fm->clear();
+    ui->list_sub->clear();
     qint32 i = 0;
     QStringList prsub;
     FileManager::instance().check();
@@ -37,18 +37,18 @@ QStringList MainWindow::printSub()
         {
             if(QFileInfo(sub->getFile()).exists())
             {
-                prsub.append(QString::number(i)+": "+ QString(sub->getName())+" -file: "+ QString(sub->getFile())+ " -exist- "+"size: "+ QString::number(QFileInfo(sub->getFile()).size())+ QString("byte"));
+                prsub.append(QString::number(i)+": name subscriber: "+ QString(sub->getName())+" -file: "+ QString(sub->getFile())+ " -exist- "+"size: "+ QString::number(QFileInfo(sub->getFile()).size())+ QString("byte"));
                 i++;
             }
             else
             {
-               prsub.append(QString::number(i++)+": "+ QString(sub->getName())+"-file: "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
+               prsub.append(QString::number(i++)+": name subscriber: "+ QString(sub->getName())+"-file: "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
             }
           }
 
         else if (sub->getCondition() == Condition::DeleteWin)
         {
-          prsub.append(QString::number(i++)+": "+ QString(sub->getName())+"-file: "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
+          prsub.append(QString::number(i++)+": name subscriber: "+ QString(sub->getName())+"-file: "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
         }
 
         else if(sub->getCondition() == Condition::Not)
