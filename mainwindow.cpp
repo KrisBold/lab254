@@ -62,14 +62,24 @@ QStringList MainWindow::printSub()
 void MainWindow:: Resign()
 {
     bool is=false;
+    //ui->list_sub->selectedItems();
+    int i=ui->list_sub->currentRow();
     if (!(ui->line_sub->text().isEmpty()) && !(subscribers.isEmpty()))
     {
-        for(qint32 i=0; i<FileManager::instance().files.size(); i++)
+        for(const auto& file: FileManager::instance().files)
         {
-          if(ui->line_sub->text()==FileManager::instance().files[i]->getName())
+          if(ui->line_sub->text()==file->getName())
           {
-             subscribers.last()->getFile() = ui->line_sub->text();
-             subscribers.last()->getName() = ui->line_sub->text();
+             subscribers[i]->getFile() = ui->line_sub->text();
+             subscribers[i]->getName() = ui->line_sub->text();
+             if(file->getCondition()==Init)
+             {
+               subscribers[i]->getCondition()=Init;
+             }
+             else if(file->getCondition()==DeleteWin)
+             {
+                 subscribers[i]->getCondition()=DeleteWin;
+             }
              ui->list_sub->clear();
              ui->list_sub->addItems(printSub());
              is=true;
@@ -77,9 +87,9 @@ void MainWindow:: Resign()
          }
         if(is==false)
         {
-            subscribers.last()->getFile() = ui->line_sub->text();
-            subscribers.last()->getName() = ui->line_sub->text();
-            subscribers.last()->getCondition()=Not;
+            subscribers[i]->getFile() = ui->line_sub->text();
+            subscribers[i]->getName() = ui->line_sub->text();
+            subscribers[i]->getCondition()=Not;
             ui->list_sub->clear();
             ui->list_sub->addItems(printSub());
         }
@@ -88,9 +98,10 @@ void MainWindow:: Resign()
 
 void MainWindow:: DeleteSubscriber()
 {
+    int i=ui->list_sub->currentRow();
     if(!(subscribers.isEmpty()))
     {
-      subscribers.removeAt(subscribers.size()-1);
+      subscribers.removeAt(i);
       FileManager::instance().check();
       ui->list_sub->clear();
       ui->list_sub->addItems(printSub());
@@ -99,9 +110,10 @@ void MainWindow:: DeleteSubscriber()
 
 void MainWindow:: DeleteFile()
 {
+    int i=ui->list_fm->currentRow();
     if(!(FileManager::instance().files.isEmpty()))
     {
-      FileManager::instance().files.removeAt(FileManager::instance().files.size()-1);
+      FileManager::instance().files.removeAt(i);
       FileManager::instance().check();
       ui->list_fm->clear();
       ui->list_fm->addItems(FileManager::instance().printfile());
