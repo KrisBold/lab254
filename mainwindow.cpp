@@ -42,13 +42,13 @@ QStringList MainWindow::printSub()
             }
             else
             {
-               prsub.append(QString::number(i++)+": "+ QString(sub->getName())+ QString(" Files WAS DELETE WINAPI"));
+               prsub.append(QString::number(i++)+": "+ QString(sub->getName())+"-file: "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
             }
           }
 
         else if (sub->getCondition() == Condition::DeleteWin)
         {
-          prsub.append(QString::number(i++)+": "+ QString(sub->getName())+ QString(" Files WAS DELETE WINAPI"));
+          prsub.append(QString::number(i++)+": "+ QString(sub->getName())+"-file: "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
         }
 
         else if(sub->getCondition() == Condition::Not)

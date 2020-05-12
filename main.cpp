@@ -8,10 +8,6 @@
 #include <QTimer>
 #include <QApplication>
 
-//удалить файл, подписчика
-//добавить файл и подписчика
-//переподска
-
 QVector<Subscriber*>subscribers;
 
 void connectSub1()
