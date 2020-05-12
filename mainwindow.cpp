@@ -37,23 +37,23 @@ QStringList MainWindow::printSub()
         {
             if(QFileInfo(sub->getFile()).exists())
             {
-                prsub.append(QString::number(i)+": name subscriber: "+ QString(sub->getName())+" -file: "+ QString(sub->getFile())+ " -exist- "+"size: "+ QString::number(QFileInfo(sub->getFile()).size())+ QString("byte"));
+                prsub.append(QString::number(i)+": "+ QString(sub->getName())+ " -exist- "+"size: "+ QString::number(QFileInfo(sub->getFile()).size())+ QString("byte"));
                 i++;
             }
             else
             {
-               prsub.append(QString::number(i++)+": name subscriber: "+ QString(sub->getName())+"-file: "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
+               prsub.append(QString::number(i++)+": "+ QString(sub->getName())+ QString(" Files WAS DELETE WINAPI"));
             }
           }
 
         else if (sub->getCondition() == Condition::DeleteWin)
         {
-          prsub.append(QString::number(i++)+": name subscriber: "+ QString(sub->getName())+"-file: "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
+          prsub.append(QString::number(i++)+": "+ QString(sub->getName())+ QString(" Files WAS DELETE WINAPI"));
         }
 
         else if(sub->getCondition() == Condition::Not)
         {
-            prsub.append(QString::number(i)+": "+ QString(sub->getName()));
+            prsub.append(QString::number(i)+": "+ QString(sub->getName())+"no information");
         }
     }
   return prsub;
@@ -61,11 +61,28 @@ QStringList MainWindow::printSub()
 
 void MainWindow:: Resign()
 {
+    bool is=false;
     if (!(ui->line_sub->text().isEmpty()) && !(subscribers.isEmpty()))
     {
-      subscribers[subscribers.size()-1]->getFile()= ui->line_sub->text();
-      ui->list_sub->clear();
-      ui->list_sub->addItems(printSub());
+        for(qint32 i=0; i<FileManager::instance().files.size(); i++)
+        {
+          if(ui->line_sub->text()==FileManager::instance().files[i]->getName())
+          {
+             subscribers.last()->getFile() = ui->line_sub->text();
+             subscribers.last()->getName() = ui->line_sub->text();
+             ui->list_sub->clear();
+             ui->list_sub->addItems(printSub());
+             is=true;
+           }
+         }
+        if(is==false)
+        {
+            subscribers.last()->getFile() = ui->line_sub->text();
+            subscribers.last()->getName() = ui->line_sub->text();
+            subscribers.last()->getCondition()=Not;
+            ui->list_sub->clear();
+            ui->list_sub->addItems(printSub());
+        }
     }
 }
 
@@ -94,25 +111,27 @@ void MainWindow:: DeleteFile()
 void MainWindow:: AddSubscriber()
 {
     Subscriber s(ui->line_sub->text());
-    bool is=true;
-    if(!(FileManager::instance().files.isEmpty()))
+    bool is=false;
+    subscribers.append(new Subscriber (ui->line_sub->text()));
+    for(qint32 i=0; i<FileManager::instance().files.size(); i++)
     {
-       for(const auto& sub : subscribers)
-           {
-             if(sub->getName()==s.getName())
-             {
-                 is=false;
-             }
-           }
-        if(is==true)
-        {
-           subscribers.append(new Subscriber (ui->line_sub->text()));
-           subscribers.last()->getFile() = FileManager::instance().files.last()->getName();
-           subscribers.last()->subscribe() = true;
-           subscribers.last()->getCondition()=Init;
-           ui->list_sub->clear();
-           ui->list_sub->addItems(printSub());
-         }
+      if(ui->line_sub->text()==FileManager::instance().files[i]->getName())
+      {
+         subscribers.last()->getFile() = ui->line_sub->text();
+         subscribers.last()->subscribe() = true;
+         subscribers.last()->getCondition()=Init;
+         ui->list_sub->clear();
+         ui->list_sub->addItems(printSub());
+         is=true;
+       }
+     }
+    if(is==false)
+    {
+        subscribers.last()->getFile() = ui->line_sub->text();
+        subscribers.last()->subscribe() = true;
+        subscribers.last()->getCondition()=Not;
+        ui->list_sub->clear();
+        ui->list_sub->addItems(printSub());
     }
 }
 
