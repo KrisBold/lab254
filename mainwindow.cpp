@@ -37,23 +37,23 @@ QStringList MainWindow::printSub()
         {
             if(QFileInfo(sub->getFile()).exists())
             {
-                prsub.append(QString::number(i)+": "+ QString(sub->getName())+ " -exist- "+"size: "+ QString::number(QFileInfo(sub->getFile()).size())+ QString("byte"));
+                prsub.append(QString::number(i)+": "+ QString(sub->getFile())+ " -exist- "+"size: "+ QString::number(QFileInfo(sub->getFile()).size())+ QString("byte"));
                 i++;
             }
             else
             {
-               prsub.append(QString::number(i++)+": "+ QString(sub->getName())+ QString(" Files WAS DELETE WINAPI"));
+               prsub.append(QString::number(i++)+": "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
             }
           }
 
         else if (sub->getCondition() == Condition::DeleteWin)
         {
-          prsub.append(QString::number(i++)+": "+ QString(sub->getName())+ QString(" Files WAS DELETE WINAPI"));
+          prsub.append(QString::number(i++)+": "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
         }
 
         else if(sub->getCondition() == Condition::Not)
         {
-            prsub.append(QString::number(i)+": "+ QString(sub->getName())+"no information");
+            prsub.append(QString::number(i++)+": "+ QString(sub->getFile())+"-no information");
         }
     }
   return prsub;
@@ -105,6 +105,7 @@ void MainWindow:: DeleteFile()
       FileManager::instance().check();
       ui->list_fm->clear();
       ui->list_fm->addItems(FileManager::instance().printfile());
+
     }
 }
 
