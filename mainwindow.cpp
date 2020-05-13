@@ -64,7 +64,7 @@ void MainWindow:: Resign()
     bool is=false;
     //ui->list_sub->selectedItems();
     int i=ui->list_sub->currentRow();
-    if (!(ui->line_sub->text().isEmpty()) && !(subscribers.isEmpty()))
+    if (!(ui->line_sub->text().isEmpty()) && !(subscribers.isEmpty()) && i>=0)
     {
         for(const auto& file: FileManager::instance().files)
         {
@@ -85,7 +85,7 @@ void MainWindow:: Resign()
              is=true;
            }
          }
-        if(is==false)
+        if(is==false && i>=0)
         {
             subscribers[i]->getFile() = ui->line_sub->text();
             subscribers[i]->getName() = ui->line_sub->text();
@@ -99,7 +99,7 @@ void MainWindow:: Resign()
 void MainWindow:: DeleteSubscriber()
 {
     int i=ui->list_sub->currentRow();
-    if(!(subscribers.isEmpty()))
+    if(!(subscribers.isEmpty()) && i>=0)
     {
       subscribers.removeAt(i);
       FileManager::instance().check();
@@ -111,7 +111,7 @@ void MainWindow:: DeleteSubscriber()
 void MainWindow:: DeleteFile()
 {
     int i=ui->list_fm->currentRow();
-    if(!(FileManager::instance().files.isEmpty()))
+    if(!(FileManager::instance().files.isEmpty()) && i>=0)
     {
       FileManager::instance().files.removeAt(i);
       FileManager::instance().check();
