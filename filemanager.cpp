@@ -16,30 +16,30 @@ FileManager::FileManager() :
 
 FileManager:: ~FileManager()
 {
-    for (const auto& f :files)
+    for (const auto& file :files)
     {
-        delete f;
+        delete file;
     }
 };
 
-QStringList FileManager::printfile()
+QStringList FileManager::printFile()
 {
-  QStringList prfiles;
+  QStringList listFiles;
   qint32 i=0;
   FileManager::instance().check();
 
-  for (const auto& f : FileManager::instance().files)
+  for (const auto& file : FileManager::instance().files)
   {
-          if (f->getCondition() != Condition::DeleteWin)
+          if (file->getCondition() != Condition::DeleteWin)
           {
-              prfiles.append(QString::number(i++)+": "+QString(f->getName())+ QString(" -EXSIST- size: ")+ QString::number(QFileInfo(f->getName()).size()));
+              listFiles.append(QString::number(i++)+": "+QString(file->getName())+ QString(" -EXSIST- size: ")+ QString::number(QFileInfo(file->getName()).size()));
           }
-          else if (f->getCondition() == Condition::DeleteWin)
+          else if (file->getCondition() == Condition::DeleteWin)
           {
-              prfiles.append(QString::number(i++)+QString(": ")+(f->getName())+ QString(" DELETE WINAPI "));
+              listFiles.append(QString::number(i++)+QString(": ")+(file->getName())+ QString(" DELETE WINAPI "));
           }
   }
-  return prfiles;
+  return listFiles;
 }
 
 void FileManager:: check()
@@ -47,18 +47,18 @@ void FileManager:: check()
   QTextStream cout(stdout);
   if (!FileManager::instance().files.isEmpty())
   {
-      for (const auto& f : FileManager::instance().files)
+      for (const auto& file : FileManager::instance().files)
       {
-          if (!QFileInfo(f->getName()).exists() && f->getCondition() == Condition::Init)
+          if (!QFileInfo(file->getName()).exists() && file->getCondition() == Condition::Init)
           {
-               emit conSub1(f->getName(), Condition::DeleteWin);
-               f->getCondition() = Condition::DeleteWin;
+               emit connectSubscriber(file->getName(), Condition::DeleteWin);
+               file->getCondition() = Condition::DeleteWin;
           }
 
-          if (QFileInfo(f->getName()).exists() && f->getCondition() == Condition::DeleteWin)
+          if (QFileInfo(file->getName()).exists() && file->getCondition() == Condition::DeleteWin)
           {
-              emit conSub1(f->getName(), Condition::Init);
-              f->getCondition() = Condition::Init;
+              emit connectSubscriber(file->getName(), Condition::Init);
+              file->getCondition() = Condition::Init;
           }
        }
     }

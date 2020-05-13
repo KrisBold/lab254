@@ -16,19 +16,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::connectSub1()
+void MainWindow::connectSubscriberToManeger()
 {
     for (const auto& sub : subscribers)
     {
-        QObject :: connect(&FileManager::instance(), &FileManager::conSub1, sub, &Subscriber::f1);
+        QObject :: connect(&FileManager::instance(), &FileManager::connectSubscriber, sub, &Subscriber::acceptsFileInformation);
     }
 }
 
-QStringList MainWindow::printSub()
+QStringList MainWindow::printSubscriber()
 {
     ui->list_sub->clear();
     qint32 i = 0;
-    QStringList prsub;
+    QStringList listSubscriber;
     FileManager::instance().check();
 
     for (const auto& sub : subscribers)
@@ -37,31 +37,31 @@ QStringList MainWindow::printSub()
         {
             if(QFileInfo(sub->getFile()).exists())
             {
-                prsub.append(QString::number(i)+": "+ QString(sub->getFile())+ " -exist- "+"size: "+ QString::number(QFileInfo(sub->getFile()).size())+ QString("byte"));
+                listSubscriber.append(QString::number(i)+": "+ QString(sub->getFile())+ " -exist- "+"size: "+ QString::number(QFileInfo(sub->getFile()).size())+ QString("byte"));
                 i++;
             }
             else
             {
-               prsub.append(QString::number(i++)+": "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
+               listSubscriber.append(QString::number(i++)+": "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
             }
           }
 
         else if (sub->getCondition() == Condition::DeleteWin)
         {
-          prsub.append(QString::number(i++)+": "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
+          listSubscriber.append(QString::number(i++)+": "+ QString(sub->getFile())+ QString(" Files WAS DELETE WINAPI"));
         }
 
         else if(sub->getCondition() == Condition::Not)
         {
-            prsub.append(QString::number(i++)+": "+ QString(sub->getFile())+"-no information");
+            listSubscriber.append(QString::number(i++)+": "+ QString(sub->getFile())+"-no information");
         }
     }
-  return prsub;
+  return listSubscriber;
 }
 
-void MainWindow:: Resign()
+void MainWindow:: resign()
 {
-    bool is=false;
+    bool isFileInList=false;
     //ui->list_sub->selectedItems();
     int i=ui->list_sub->currentRow();
     if (!(ui->line_sub->text().isEmpty()) && !(subscribers.isEmpty()) && i>=0)
@@ -81,22 +81,22 @@ void MainWindow:: Resign()
                  subscribers[i]->getCondition()=DeleteWin;
              }
              ui->list_sub->clear();
-             ui->list_sub->addItems(printSub());
-             is=true;
+             ui->list_sub->addItems(printSubscriber());
+             isFileInList=true;
            }
          }
-        if(is==false && i>=0)
+        if(isFileInList==false && i>=0)
         {
             subscribers[i]->getFile() = ui->line_sub->text();
             subscribers[i]->getName() = ui->line_sub->text();
             subscribers[i]->getCondition()=Not;
             ui->list_sub->clear();
-            ui->list_sub->addItems(printSub());
+            ui->list_sub->addItems(printSubscriber());
         }
     }
 }
 
-void MainWindow:: DeleteSubscriber()
+void MainWindow:: deleteSubscriber()
 {
     int i=ui->list_sub->currentRow();
     if(!(subscribers.isEmpty()) && i>=0)
@@ -104,11 +104,11 @@ void MainWindow:: DeleteSubscriber()
       subscribers.removeAt(i);
       FileManager::instance().check();
       ui->list_sub->clear();
-      ui->list_sub->addItems(printSub());
+      ui->list_sub->addItems(printSubscriber());
     }
 }
 
-void MainWindow:: DeleteFile()
+void MainWindow:: deleteFile()
 {
     int i=ui->list_fm->currentRow();
     if(!(FileManager::instance().files.isEmpty()) && i>=0)
@@ -116,15 +116,15 @@ void MainWindow:: DeleteFile()
       FileManager::instance().files.removeAt(i);
       FileManager::instance().check();
       ui->list_fm->clear();
-      ui->list_fm->addItems(FileManager::instance().printfile());
+      ui->list_fm->addItems(FileManager::instance().printFile());
 
     }
 }
 
-void MainWindow:: AddSubscriber()
+void MainWindow:: addSubscriber()
 {
     Subscriber s(ui->line_sub->text());
-    bool is=false;
+    bool isFileInManager=false;
     subscribers.append(new Subscriber (ui->line_sub->text()));
     for(qint32 i=0; i<FileManager::instance().files.size(); i++)
     {
@@ -134,49 +134,49 @@ void MainWindow:: AddSubscriber()
          subscribers.last()->subscribe() = true;
          subscribers.last()->getCondition()=Init;
          ui->list_sub->clear();
-         ui->list_sub->addItems(printSub());
-         is=true;
+         ui->list_sub->addItems(printSubscriber());
+         isFileInManager=true;
        }
      }
-    if(is==false)
+    if(isFileInManager==false)
     {
         subscribers.last()->getFile() = ui->line_sub->text();
         subscribers.last()->subscribe() = true;
         subscribers.last()->getCondition()=Not;
         ui->list_sub->clear();
-        ui->list_sub->addItems(printSub());
+        ui->list_sub->addItems(printSubscriber());
     }
 }
 
-void MainWindow:: UpdateS()
+void MainWindow:: updateSubscribers()
 {
     ui->list_sub->clear();
-    ui->list_sub->addItems(printSub());
+    ui->list_sub->addItems(printSubscriber());
 }
 
-void MainWindow:: UpdateF()
+void MainWindow:: updateFiles()
 {
     ui->list_fm->clear();
-    ui->list_fm->addItems(FileManager::instance().printfile());
+    ui->list_fm->addItems(FileManager::instance().printFile());
 }
 
-void MainWindow:: AddFile()
+void MainWindow:: addFile()
 {
    FileManager::instance().check();
    FileInformation file(ui->line_fm->text());
-   bool is=true;
+   bool isFile=true;
    for(const auto& f : FileManager::instance().files)
        {
          if(f->getName()==file.getName())
          {
-             is=false;
+             isFile=false;
          }
        }
-      if(is==true)
+      if(isFile==true)
       {
          FileManager::instance().files.append(new FileInformation(ui->line_fm->text()));
          ui->list_fm->clear();
-         ui->list_fm->addItems(FileManager::instance().printfile());
+         ui->list_fm->addItems(FileManager::instance().printFile());
          for(int i=0; i<subscribers.size();i++)
                 {
                     if(subscribers[i]->getFile()==file.getName())

@@ -133,7 +133,7 @@
    <sender>Add</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>AddSubscriber()</slot>
+   <slot>addSubscriber()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>72</x>
@@ -149,7 +149,7 @@
    <sender>Delete</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>DeleteSubscriber()</slot>
+   <slot>deleteSubscriber()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>202</x>
@@ -165,7 +165,7 @@
    <sender>DeleteFile</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>DeleteFile()</slot>
+   <slot>deleteFile()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>499</x>
@@ -181,7 +181,7 @@
    <sender>AddFile</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>AddFile()</slot>
+   <slot>addFile()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>694</x>
@@ -197,7 +197,7 @@
    <sender>resign</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>Resign()</slot>
+   <slot>resign()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>466</x>
@@ -213,7 +213,7 @@
    <sender>updateS</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>UpdateS()</slot>
+   <slot>updateSubscribers()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>202</x>
@@ -229,7 +229,7 @@
    <sender>updateF</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
-   <slot>UpdateF()</slot>
+   <slot>updateFiles()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>596</x>
@@ -243,12 +243,12 @@
   </connection>
  </connections>
  <slots>
-  <slot>AddSubscriber()</slot>
-  <slot>DeleteSubscriber()</slot>
-  <slot>DeleteFile()</slot>
-  <slot>AddFile()</slot>
-  <slot>Resign()</slot>
-  <slot>UpdateS()</slot>
-  <slot>UpdateF()</slot>
+  <slot>addSubscriber()</slot>
+  <slot>deleteSubscriber()</slot>
+  <slot>deleteFile()</slot>
+  <slot>addFile()</slot>
+  <slot>resign()</slot>
+  <slot>updateSubscribers()</slot>
+  <slot>updateFiles()</slot>
  </slots>
 </ui>

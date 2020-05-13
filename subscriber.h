@@ -16,7 +16,7 @@ public:
     // Возвращает флаг, подписан ли подпичик на файл или нет
     bool& subscribe();
     Condition& getCondition();
-    Q_SLOT void f1(QString namemag, Condition conditi);
+    Q_SLOT void acceptsFileInformation(QString namemag, Condition conditi);
 private:
     QString name;
     QString file;

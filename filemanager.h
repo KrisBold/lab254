@@ -16,12 +16,12 @@ class FileManager final : public QObject
 public:
     ~FileManager();
      FileManager();
-     QStringList printfile();
+     QStringList printFile();
     // Функция "взывать". Она возвращает ссылку на единственный объекьт класса FileManager
      static FileManager& instance();
      QVector<FileInformation*> files;
      Q_SLOT void check();
-     Q_SIGNAL void conSub1(QString namef, Condition conditi);
+     Q_SIGNAL void connectSubscriber(QString namef, Condition conditi);
 };
 
 #endif // FILEMANAGER_H

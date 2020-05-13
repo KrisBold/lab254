@@ -19,15 +19,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void connectSub1();
-    Q_SLOT void AddSubscriber();
-    Q_SLOT QStringList printSub();
-    Q_SLOT void AddFile();
-    Q_SLOT void DeleteSubscriber();
-    Q_SLOT void DeleteFile();
-    Q_SLOT void Resign();
-    Q_SLOT void UpdateS();
-    Q_SLOT void UpdateF();
+    void connectSubscriberToManeger();
+    Q_SLOT void addSubscriber();
+    Q_SLOT QStringList printSubscriber();
+    Q_SLOT void addFile();
+    Q_SLOT void deleteSubscriber();
+    Q_SLOT void deleteFile();
+    Q_SLOT void resign();
+    Q_SLOT void updateSubscribers();
+    Q_SLOT void updateFiles();
 private:
     Ui::MainWindow *ui;
 };

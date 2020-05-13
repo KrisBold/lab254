@@ -10,11 +10,11 @@
 
 QVector<Subscriber*>subscribers;
 
-void connectSub1()
+void connectSubscrinerToManager()
 {
     for (const auto& sub : subscribers)
     {
-        QObject :: connect(&FileManager::instance(), &FileManager::conSub1, sub, &Subscriber::f1);
+        QObject :: connect(&FileManager::instance(), &FileManager::connectSubscriber, sub, &Subscriber::acceptsFileInformation);
     }
 }
 
@@ -305,7 +305,7 @@ void printm()
     printSubscribers();
     printFiles();
 
-    connectSub1();
+    connectSubscrinerToManager();
 }
 
 int main(int argc, char *argv[])

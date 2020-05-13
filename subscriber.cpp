@@ -27,7 +27,7 @@ Condition& Subscriber::getCondition()
     return condition;
 }
 
-void Subscriber:: f1(QString namemag, Condition conditi)
+void Subscriber:: acceptsFileInformation(QString namemag, Condition conditi)
 {
     if(namemag==file)
     {
