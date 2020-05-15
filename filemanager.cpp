@@ -50,14 +50,15 @@ void FileManager:: check()
       {
           if (!QFileInfo(file->getName()).exists() && file->getCondition() == Condition::Init)
           {
-               emit sendInformation(file->getName(), Condition::DeleteWin);
-               file->getCondition() = Condition::DeleteWin;
+              emit sendInformation(file->getName(), Condition::DeleteWin, -1);
+              file->getCondition() = Condition::DeleteWin;
           }
 
-          if (QFileInfo(file->getName()).exists() && file->getCondition() == Condition::DeleteWin)
+          if ((QFileInfo(file->getName()).exists() && file->getCondition() == Condition::DeleteWin)||QFileInfo(file->getName()).size()!=file->getSize())
           {
-              emit sendInformation(file->getName(), Condition::Init);
+              emit sendInformation(file->getName(), Condition::Init, QFileInfo(file->getName()).size());
               file->getCondition() = Condition::Init;
+              file->getSize() = QFileInfo(file->getName()).size();
           }
       }
    }

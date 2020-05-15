@@ -21,7 +21,7 @@ public:
      static FileManager& instance();
      QVector<FileInformation*> files;
      void check();
-     Q_SIGNAL void sendInformation(QString namef, Condition conditi);
+     Q_SIGNAL void sendInformation(QString namef, Condition conditi, qint32 siz);
 };
 
 #endif // FILEMANAGER_H

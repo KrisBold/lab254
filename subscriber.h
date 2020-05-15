@@ -16,12 +16,14 @@ public:
     // Возвращает флаг, подписан ли подпичик на файл или нет
     bool& subscribe();
     Condition& getCondition();
-    Q_SLOT void acceptsFileInformation(QString namemag, Condition conditi);
+    qint32& getSize();
+    Q_SLOT void acceptsFileInformation(QString namemag, Condition conditi, qint32 siz);
 private:
     QString name;
     QString file;
     bool isSubscribe;
     Condition condition;
+    qint32 size;
 };
 
 #endif // SUBSCRIBER_H

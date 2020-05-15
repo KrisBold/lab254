@@ -6,6 +6,7 @@
 #include "filemanager.h"
 #include "fileinformation.h"
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -21,7 +22,6 @@ public:
     ~MainWindow();
     void connectSubscriberToManeger();
     Q_SLOT void addSubscriber();
-    Q_SLOT QStringList printSubscriber();
     Q_SLOT void addFile();
     Q_SLOT void deleteSubscriber();
     Q_SLOT void deleteFile();

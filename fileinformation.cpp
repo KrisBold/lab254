@@ -14,3 +14,8 @@ QString FileInformation::getName() const
 {
     return name;
 }
+
+qint32& FileInformation::getSize()
+{
+    return size;
+}

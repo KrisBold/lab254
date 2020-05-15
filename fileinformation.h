@@ -18,10 +18,11 @@ public:
     // const - спецификатор, означающий что функция не изменяет поля класса
     QString getName() const;
     Condition& getCondition();
+    qint32& getSize();
 
 private:
     QString name;
     Condition condition;
-
+    qint32 size;
 };
 #endif // FILEINFORMATION_H

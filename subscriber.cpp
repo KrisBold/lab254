@@ -4,7 +4,7 @@
 #include <QDebug>
 
 Subscriber::Subscriber(const QString& name) :
-    name(name),isSubscribe(false), condition(Condition::Not)
+    name(name),isSubscribe(false), condition(Condition::Not),size(-1)
 {
 }
 
@@ -28,10 +28,16 @@ Condition& Subscriber::getCondition()
     return condition;
 }
 
-void Subscriber:: acceptsFileInformation(QString namemag, Condition conditi)
+qint32& Subscriber::getSize()
+{
+    return size;
+}
+
+void Subscriber:: acceptsFileInformation(QString namemag, Condition conditi, qint32 siz)
 {
     if(namemag==file)
     {
         condition =conditi;
+        size=siz;
     }
 }
