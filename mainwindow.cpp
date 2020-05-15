@@ -37,7 +37,7 @@ void MainWindow:: resign()
           {
              subscribers[i]->getFile() = ui->line_sub->text();
              subscribers[i]->getName() = ui->line_sub->text();
-             subscribers[i]->getSize() = QFileInfo(ui->line_sub->text()).size();
+             subscribers[i]->getSize() = FileInformation(ui->line_sub->text()).getSize();
              if(file->getCondition()==Init)
              {
                subscribers[i]->getCondition()=Init;
@@ -92,7 +92,7 @@ void MainWindow:: addSubscriber()
       {
          subscribers.last()->getFile() = ui->line_sub->text();
          subscribers.last()->subscribe() = true;
-         subscribers.last()->getSize()=QFileInfo(FileManager::instance().files[i]->getName()).size();
+         subscribers.last()->getSize()=FileManager::instance().files[i]->getSize();
          subscribers.last()->getCondition()=FileManager::instance().files[i]->getCondition();
          isFileInManager=true;
        }
@@ -135,7 +135,7 @@ void MainWindow:: updateFiles()
         FileInformation* file=FileManager::instance().files[i];
         if (file->getCondition() != Condition::DeleteWin)
         {
-            ui->list_fm->item(i)->setText(QString::number(i)+": "+QString(file->getName())+ QString(" -EXSIST- size: ")+ QString::number(QFileInfo(file->getName()).size()));
+            ui->list_fm->item(i)->setText(QString::number(i)+": "+QString(file->getName())+ QString(" -EXSIST- size: ")+ QString::number(file->getSize()));
         }
         else if (file->getCondition() == Condition::DeleteWin)
         {
@@ -164,7 +164,7 @@ void MainWindow:: addFile()
           if(subscribers[i]->getFile()==file.getName())
           {
               subscribers[i]->getCondition()=file.getCondition();
-              subscribers[i]->getSize()=QFileInfo(file.getName()).size();
+              subscribers[i]->getSize()=file.getSize();
           }
       }
    }
