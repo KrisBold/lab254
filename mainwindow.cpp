@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(&timer, SIGNAL(timeout()), this, SLOT(updateAll()));
-    timer.start(5000);
+    timer.start(1000);
 }
 
 void MainWindow:: updateAll()
