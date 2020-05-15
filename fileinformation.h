@@ -15,7 +15,6 @@ public:
     explicit FileInformation(const QString& name);
     // Деструктор создаётся по умолчанию компилятором
     ~FileInformation() = default;
-    // Возвращает имя журнала
     // const - спецификатор, означающий что функция не изменяет поля класса
     QString getName() const;
     Condition& getCondition();

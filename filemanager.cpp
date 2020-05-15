@@ -5,12 +5,11 @@
 #include <thread>
 #include <QTimer>
 #include <QObject>
+#include <QDebug>
 
 FileManager::FileManager() :
     QObject(nullptr)
 {
-    connect(&timer, SIGNAL(timeout()), this, SLOT(check()));
-    timer.start(1000);
 }
 
 
@@ -26,7 +25,7 @@ QStringList FileManager::printFile()
 {
   QStringList listFiles;
   qint32 i=0;
-  FileManager::instance().check();
+  //FileManager::instance().check();
 
   for (const auto& file : FileManager::instance().files)
   {
@@ -51,17 +50,17 @@ void FileManager:: check()
       {
           if (!QFileInfo(file->getName()).exists() && file->getCondition() == Condition::Init)
           {
-               emit connectSubscriber(file->getName(), Condition::DeleteWin);
+               emit sendInformation(file->getName(), Condition::DeleteWin);
                file->getCondition() = Condition::DeleteWin;
           }
 
           if (QFileInfo(file->getName()).exists() && file->getCondition() == Condition::DeleteWin)
           {
-              emit connectSubscriber(file->getName(), Condition::Init);
+              emit sendInformation(file->getName(), Condition::Init);
               file->getCondition() = Condition::Init;
           }
-       }
-    }
+      }
+   }
 }
 
 FileManager& FileManager::instance()

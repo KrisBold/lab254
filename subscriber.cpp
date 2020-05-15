@@ -1,6 +1,7 @@
 #include "subscriber.h"
 
 #include <QTextStream>
+#include <QDebug>
 
 Subscriber::Subscriber(const QString& name) :
     name(name),isSubscribe(false), condition(Condition::Not)

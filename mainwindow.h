@@ -28,6 +28,7 @@ public:
     Q_SLOT void resign();
     Q_SLOT void updateSubscribers();
     Q_SLOT void updateFiles();
+    Q_SLOT void updateAll();
 private:
     Ui::MainWindow *ui;
 };

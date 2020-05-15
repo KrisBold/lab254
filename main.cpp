@@ -10,13 +10,13 @@
 
 QVector<Subscriber*>subscribers;
 
-void connectSubscrinerToManager()
-{
-    for (const auto& sub : subscribers)
-    {
-        QObject :: connect(&FileManager::instance(), &FileManager::connectSubscriber, sub, &Subscriber::acceptsFileInformation);
-    }
-}
+//void connectSubscrinerToManager()
+//{
+//    for (const auto& sub : subscribers)
+//    {
+//        QObject :: connect(&FileManager::instance(), &FileManager::sendInformation, sub, &Subscriber::acceptsFileInformation);
+//    }
+//}
 
 bool resign(qint32 idSubscriber, qint32 idFile)
 {
@@ -38,9 +38,9 @@ bool resign(qint32 idSubscriber, qint32 idFile)
                                 subscribers[idSubscriber]->getFile() = FileManager::instance().files[idFile]->getName();
                                 subscribers[idSubscriber]->subscribe() = true;
                                 subscribers[idSubscriber]->getCondition() = Condition::Init;
-                              }
+                            }
                         }
-                    }
+                     }
                    return true;
                 }
                 else
@@ -123,7 +123,7 @@ void printFiles()
 {
     QTextStream(stdout) << "\tFiles" << endl;
     qint32 i = 0;
-    FileManager::instance().check();
+    //FileManager::instance().check();
 
     for (const auto& f : FileManager::instance().files)
     {
@@ -142,24 +142,24 @@ void printSubscribers()
 {
     QTextStream(stdout) << "\tSUBSCRIBERS" << endl;
     qint32 i = 0;
-    FileManager::instance().check();
+    //FileManager::instance().check();
 
     for (const auto& sub : subscribers)
     {
-        if (sub->getCondition() == Condition::Init)
-        {
-            if(QFileInfo(sub->getFile()).exists())
-            {
-                QTextStream(stdout) << "\t" << i << " ---> " << sub->getName();
-                QTextStream(stdout)<<" file  "<<sub->getFile() <<"  exist"<<endl;
-                QTextStream(stdout) << "\t\tSize is " << size(i) << " byte" << endl;
-                i++;
-            }
-            else
-            {
-               QTextStream(stdout) << "\t" << i++ << " ---> " << sub->getName() << " Files WAS DELETE WINAPI" << endl;
-            }
-          }
+       if (sub->getCondition() == Condition::Init)
+       {
+           if(QFileInfo(sub->getFile()).exists())
+           {
+               QTextStream(stdout) << "\t" << i << " ---> " << sub->getName();
+               QTextStream(stdout)<<" file  "<<sub->getFile() <<"  exist"<<endl;
+               QTextStream(stdout) << "\t\tSize is " << size(i) << " byte" << endl;
+               i++;
+           }
+           else
+           {
+              QTextStream(stdout) << "\t" << i++ << " ---> " << sub->getName() << " Files WAS DELETE WINAPI" << endl;
+           }
+        }
 
         else if (sub->getCondition() == Condition::DeleteWin)
         {
@@ -305,7 +305,7 @@ void printm()
     printSubscribers();
     printFiles();
 
-    connectSubscrinerToManager();
+    //connectSubscrinerToManager();
 }
 
 int main(int argc, char *argv[])
