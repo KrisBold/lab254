@@ -1,8 +1,10 @@
-#include "s.h"
+#include "subscriber.h"
+
 #include <QTextStream>
+#include <QDebug>
 
 Subscriber::Subscriber(const QString& name) :
-    name(name),isSubscribe(false), condition(Condition::Init)
+    name(name),isSubscribe(false), condition(Condition::Not),size(-1)
 {
 }
 
@@ -26,15 +28,16 @@ Condition& Subscriber::getCondition()
     return condition;
 }
 
-//void Subscriber::conditi1(Subscriber* _name, Subscriber::Condition conditi)
-//{
-//  _name->getCondition()=conditi;
-//}
-void Subscriber:: f1(QString namemag, Condition conditi)
+qint32& Subscriber::getSize()
+{
+    return size;
+}
+
+void Subscriber:: acceptsFileInformation(QString namemag, Condition conditi, qint32 siz)
 {
     if(namemag==file)
     {
         condition =conditi;
+        size=siz;
     }
 }
-

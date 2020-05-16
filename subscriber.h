@@ -1,33 +1,29 @@
-#ifndef S_H
-#define S_H
+#ifndef SUBSCRIBER_H
+#define SUBSCRIBER_H
 
 #include <QObject>
-#include "Condishion.h"
+#include "Condition.h"
 
 class Subscriber : public QObject
 {
     Q_OBJECT
 
 public:
-    // Инициализация имени
     explicit Subscriber(const QString& name);
     ~Subscriber() = default;
-
     QString getName() const;
-
     QString& getFile();
-
-    // Возвращает флаг, подписан ли подпичик на журнал или нет
+    // Возвращает флаг, подписан ли подпичик на файл или нет
     bool& subscribe();
-
     Condition& getCondition();
-    //Q_SLOT void conditi1(Subscriber* _name, Subscriber::Condition conditi);
-
-    Q_SLOT void f1(QString namemag, Condition conditi);
+    qint32& getSize();
+    Q_SLOT void acceptsFileInformation(QString namemag, Condition conditi, qint32 siz);
 private:
     QString name;
     QString file;
     bool isSubscribe;
     Condition condition;
+    qint32 size;
 };
-#endif // S_H
+
+#endif // SUBSCRIBER_H
